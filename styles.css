@@ -1,0 +1,188 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-color: #003366;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.5rem;
+}
+
+.nav-button {
+    background-color: #ffffff;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 0.9rem;
+}
+
+.nav-button:hover {
+    background-color: #e0e0e0;
+}
+
+main {
+    padding: 1rem;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.main-title {
+    color: #003366;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.description {
+    line-height: 1.6;
+    text-align: justify;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.divider {
+    border-top: 2px solid #003366;
+    margin: 2rem 0;
+}
+
+.user-info {
+    background-color: #f5f5f5;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+    max-width: 900px;
+    margin: 1rem auto;
+    border: 1px solid #e0e0e0;
+    padding: 1.5rem;
+}
+
+.user-info p {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.toggle-button {
+    background-color: #003366;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 1rem 0;
+    display: inline-block;
+    font-size: 1rem;
+    text-align: left;
+}
+
+.toggle-button:hover {
+    background-color: #004380;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin-bottom: 2rem;
+    width: 100%;
+    padding: 0.5rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 1rem;
+    background-color: #ffffff;
+}
+
+th, td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+th {
+    background-color: #003366;
+    color: white;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+tr:hover {
+    background-color: #f2f2f2;
+}
+
+.action-button {
+    background-color: #003366;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.action-button:hover {
+    background-color: #004380;
+}
+
+.subrogancia-form {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    flex: 1;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #495057;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.submit-button {
+    background-color: #003366;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.submit-button:hover {
+    background-color: #004380;
+}
