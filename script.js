@@ -58,7 +58,43 @@ function openTab(contentId, activeTabId) {
     document.getElementById(contentId).classList.add('active');
     document.getElementById(activeTabId).classList.add('active');
     
-    // Si es la pestaña de confirmaciones pendientes, calcular días pendientes
+    // Si es la pestaña de Mis Confirmaciones, y está visible la sub-pestaña de confirmaciones pendientes, calcular días pendientes
+    if (contentId === 'contentMisConfirmaciones') {
+        const subTabPendientes = document.getElementById('contentConfirmacionesPendientes');
+        if (subTabPendientes && subTabPendientes.classList.contains('active')) {
+            setTimeout(calcularDiasPendientes, 100);
+        }
+    }
+}
+
+/**
+ * Controla el sistema de sub-pestañas, mostrando el contenido de la sub-pestaña seleccionada
+ * y ocultando las demás, sin afectar la pestaña principal
+ * @param {string} contentId - ID del contenido de la sub-pestaña a mostrar
+ * @param {string} activeTabId - ID de la sub-pestaña activa
+ * @param {string} parentContentId - ID del contenido de la pestaña padre
+ */
+function openSubTab(contentId, activeTabId, parentContentId) {
+    // Solo procesar las sub-pestañas dentro de la pestaña padre activa
+    const parentElement = document.getElementById(parentContentId);
+    
+    // Ocultar todos los contenidos de sub-pestañas
+    const subTabContents = parentElement.getElementsByClassName('sub-tab-content');
+    for (let i = 0; i < subTabContents.length; i++) {
+        subTabContents[i].classList.remove('active');
+    }
+    
+    // Desactivar todas las sub-pestañas
+    const subTabButtons = parentElement.getElementsByClassName('sub-tab-button');
+    for (let i = 0; i < subTabButtons.length; i++) {
+        subTabButtons[i].classList.remove('active');
+    }
+    
+    // Mostrar el contenido seleccionado y activar la sub-pestaña
+    document.getElementById(contentId).classList.add('active');
+    document.getElementById(activeTabId).classList.add('active');
+    
+    // Si es la sub-pestaña de confirmaciones pendientes, calcular días pendientes
     if (contentId === 'contentConfirmacionesPendientes') {
         setTimeout(calcularDiasPendientes, 100);
     }
@@ -102,6 +138,7 @@ function calcularDiasPendientes() {
     const hoy = new Date();
 
     rows.forEach(row => {
+        const accionCell = row.querySelector('td:nth-child(1)');
         const fechaSolicitudCell = row.querySelector('td:nth-child(2)');
         const montoCell = row.querySelector('td:nth-child(10)');
         const diasPendientesCell = row.querySelector('td:nth-child(11)');
@@ -116,10 +153,14 @@ function calcularDiasPendientes() {
         }
         
         // Calcular días pendientes
-        if (fechaSolicitudCell && diasPendientesCell) {
+        if (fechaSolicitudCell && diasPendientesCell && accionCell) {
+            const accion = accionCell.textContent.trim();
             const fechaSolicitud = parseFecha(fechaSolicitudCell.textContent);
-            // Agregar 3 días a la fecha de solicitud
-            fechaSolicitud.setDate(fechaSolicitud.getDate() + 3);
+            
+            // Si la acción es FEP o Decision 48 Horas-Dispone FEP, agregar 40 días, sino agregar 3 días
+            const diasAdicionales = (accion === 'FEP' || accion === 'Decision 48 Horas-Dispone FEP') ? 40 : 3;
+            fechaSolicitud.setDate(fechaSolicitud.getDate() + diasAdicionales);
+            
             const diferenciaDias = Math.ceil((fechaSolicitud-hoy) / (1000 * 60 * 60 * 24));
             
             // Mostrar "Vencido" si es negativo, sino mostrar el número de días
@@ -144,6 +185,115 @@ function parseFecha(fechaStr) {
 }
 
 // ===============================================
+// FUNCIONES DE SUBRROGANCIA
+// ===============================================
+
+/**
+ * Formatea una fecha en formato YYYY-MM-DD a formato DD-MM-YYYY
+ * @param {string} fechaStr - Fecha en formato YYYY-MM-DD
+ * @returns {string} Fecha en formato DD-MM-YYYY
+ */
+function formatearFecha(fechaStr) {
+    const [anio, mes, dia] = fechaStr.split('-');
+    return `${dia}-${mes}-${anio}`;
+}
+
+/**
+ * Guarda una subrrogancia y la muestra en el historial
+ */
+function guardarSubrrogancia() {
+    // Obtener los valores del formulario
+    const selectUsuario = document.querySelector('#contentSubrrogancias .form-group select');
+    const inputFechaInicio = document.querySelector('#contentSubrrogancias .form-group input[type="date"]:first-of-type');
+    const inputFechaTermino = document.querySelector('#contentSubrrogancias .form-group input[type="date"]:last-of-type');
+    
+    const usuarioSeleccionado = selectUsuario.options[selectUsuario.selectedIndex];
+    const fechaInicio = inputFechaInicio.value;
+    const fechaTermino = inputFechaTermino.value;
+    
+    // Validar que se hayan ingresado todos los datos
+    if (!usuarioSeleccionado.value || !fechaInicio || !fechaTermino) {
+        alert('Por favor complete todos los campos antes de guardar.');
+        return;
+    }
+    
+    // Validar que la fecha de término no sea anterior a la de inicio
+    if (new Date(fechaTermino) < new Date(fechaInicio)) {
+        alert('La fecha de término no puede ser anterior a la fecha de inicio.');
+        return;
+    }
+    
+    // Formatear las fechas para mostrar
+    const fechaInicioFormateada = formatearFecha(fechaInicio);
+    const fechaTerminoFormateada = formatearFecha(fechaTermino);
+    
+    // Mostrar mensaje de confirmación
+    const confirmacion = confirm(
+        `¿Confirma la asignación de subrrogancia con los siguientes datos?\n\n` +
+        `Usuario: ${usuarioSeleccionado.text}\n` +
+        `Fecha de inicio: ${fechaInicioFormateada}\n` +
+        `Fecha de término: ${fechaTerminoFormateada}`
+    );    
+    if (confirmacion) {
+        // Agregar al historial de subrrogancias
+        const tablaHistorial = document.querySelector('#tablaHistorialSubrrogancias tbody');
+        const hoy = new Date();
+        const fechaIngreso = `${hoy.getDate().toString().padStart(2, '0')}-${(hoy.getMonth() + 1).toString().padStart(2, '0')}-${hoy.getFullYear()}`;
+          // Calcular vigencia
+        const esVigente = new Date(fechaTermino) >= hoy;
+        const vigencia = esVigente ? 'Vigente' : 'No vigente';
+        const claseVigencia = esVigente ? 'vigente' : 'no-vigente';
+        
+        // Crear nueva fila en la tabla de historial
+        const nuevaFila = document.createElement('tr');
+        nuevaFila.innerHTML = `
+            <td>${fechaIngreso}</td>
+            <td>${usuarioSeleccionado.text}</td>
+            <td>${fechaInicioFormateada}</td>
+            <td>${fechaTerminoFormateada}</td>
+            <td class="${claseVigencia}">${vigencia}</td>
+            <td><button class="btn-eliminar">Eliminar</button></td>
+        `;
+        
+        // Agregar evento de eliminación al botón
+        const btnEliminar = nuevaFila.querySelector('.btn-eliminar');
+        btnEliminar.addEventListener('click', function() {
+            eliminarSubrrogancia(nuevaFila, usuarioSeleccionado.text, fechaInicioFormateada, fechaTerminoFormateada);
+        });
+        
+        tablaHistorial.appendChild(nuevaFila);
+        
+        // Limpiar el formulario
+        selectUsuario.selectedIndex = 0;
+        inputFechaInicio.value = '';
+        inputFechaTermino.value = '';
+        
+        alert('Subrrogancia guardada con éxito.');
+    }
+}
+
+/**
+ * Elimina una subrrogancia del historial después de mostrar un mensaje de confirmación
+ * @param {HTMLElement} fila - La fila de la tabla a eliminar
+ * @param {string} usuario - Nombre del usuario subrrogante
+ * @param {string} fechaInicio - Fecha de inicio formateada
+ * @param {string} fechaTermino - Fecha de término formateada
+ */
+function eliminarSubrrogancia(fila, usuario, fechaInicio, fechaTermino) {
+    const confirmacion = confirm(
+        `¿Está seguro que desea eliminar la siguiente subrrogancia?\n\n` +
+        `Usuario: ${usuario}\n` +
+        `Fecha de inicio: ${fechaInicio}\n` +
+        `Fecha de término: ${fechaTermino}`
+    );
+    
+    if (confirmacion) {
+        fila.remove();
+        alert('Subrrogancia eliminada con éxito.');
+    }
+}
+
+// ===============================================
 // INICIALIZACIÓN
 // ===============================================
 
@@ -158,6 +308,34 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', function() {
             const contentId = this.getAttribute('data-target') || this.id.replace('tab', 'content');
             openTab(contentId, this.id);
+        });
+    });
+    
+    // Asegurar que las sub-pestañas funcionen correctamente
+    const subTabButtons = document.querySelectorAll('.sub-tab-button');
+    subTabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const contentId = this.getAttribute('data-target') || this.id.replace('subTab', 'content');
+            const parentContentId = this.closest('.tab-content').id;
+            openSubTab(contentId, this.id, parentContentId);
+        });
+    });
+      // Configurar el botón de guardar subrrogancia
+    const btnGuardarSubrrogancia = document.querySelector('.submit-button');
+    if (btnGuardarSubrrogancia) {
+        btnGuardarSubrrogancia.addEventListener('click', guardarSubrrogancia);
+    }
+    
+    // Configurar botones de eliminar para ejemplos que ya existan en la tabla
+    const botonesEliminar = document.querySelectorAll('#tablaHistorialSubrrogancias .btn-eliminar');
+    botonesEliminar.forEach(boton => {
+        boton.addEventListener('click', function() {
+            const fila = this.closest('tr');
+            const celdas = fila.querySelectorAll('td');
+            const usuario = celdas[1].textContent;
+            const fechaInicio = celdas[2].textContent;
+            const fechaTermino = celdas[3].textContent;
+            eliminarSubrrogancia(fila, usuario, fechaInicio, fechaTermino);
         });
     });
 });
