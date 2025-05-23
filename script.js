@@ -35,6 +35,35 @@ function toggleTable(contentId, buttonId) {
     }
 }
 
+/**
+ * Controla el sistema de pestañas, mostrando el contenido de la pestaña seleccionada
+ * y ocultando las demás
+ * @param {string} contentId - ID del contenido de la pestaña a mostrar
+ * @param {string} activeTabId - ID de la pestaña activa
+ */
+function openTab(contentId, activeTabId) {
+    // Ocultar todos los contenidos de pestañas
+    const tabContents = document.getElementsByClassName('tab-content');
+    for (let i = 0; i < tabContents.length; i++) {
+        tabContents[i].classList.remove('active');
+    }
+    
+    // Desactivar todas las pestañas
+    const tabButtons = document.getElementsByClassName('tab-button');
+    for (let i = 0; i < tabButtons.length; i++) {
+        tabButtons[i].classList.remove('active');
+    }
+    
+    // Mostrar el contenido seleccionado y activar la pestaña
+    document.getElementById(contentId).classList.add('active');
+    document.getElementById(activeTabId).classList.add('active');
+    
+    // Si es la pestaña de confirmaciones pendientes, calcular días pendientes
+    if (contentId === 'contentConfirmacionesPendientes') {
+        setTimeout(calcularDiasPendientes, 100);
+    }
+}
+
 // ===============================================
 // FUNCIONES DE CONTEO Y FORMATEO
 // ===============================================
@@ -69,7 +98,7 @@ function formatearMonto(monto) {
  * Calcula los días pendientes y formatea los montos en la tabla
  */
 function calcularDiasPendientes() {
-    const rows = document.querySelectorAll('#tableContent tbody tr');
+    const rows = document.querySelectorAll('#contentConfirmacionesPendientes tbody tr');
     const hoy = new Date();
 
     rows.forEach(row => {
@@ -120,14 +149,15 @@ function parseFecha(fechaStr) {
 
 // Configuración inicial cuando se carga la página
 document.addEventListener('DOMContentLoaded', function() {
-    // Inicializar contador en el botón
-    const button = document.getElementById('toggleButton');
-    const count = contarElementosTabla();
-    const originalText = button.textContent;
-    button.textContent = originalText + ` (${count})`;
+    // Inicializar el sistema de pestañas y calcular días pendientes
+    calcularDiasPendientes();
     
-    // Configurar cálculo de días pendientes al mostrar la tabla
-    document.getElementById('toggleButton').addEventListener('click', function() {
-        setTimeout(calcularDiasPendientes, 100);
+    // Asegurar que las pestañas funcionen correctamente
+    const tabButtons = document.querySelectorAll('.tab-button');
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const contentId = this.getAttribute('data-target') || this.id.replace('tab', 'content');
+            openTab(contentId, this.id);
+        });
     });
 });

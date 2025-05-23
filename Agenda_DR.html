@@ -30,119 +30,119 @@
         <div class="user-info">
             <p><strong>Nombre:</strong> "Usuario de Prueba Director Regional"</p>
             <p><strong>RUT:</strong> 55.555.555-5</p>
-        </div>
-
-        <div class="tables-section">
-            <div class="table-group">
-                <button id="toggleButton" class="toggle-button" onclick="toggleTable('tableContent', 'toggleButton')">Mis confirmaciones Pendientes</button>
-                <div id="tableContent" class="table-container" style="display: none;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Acción</th>
-                                <th>Fecha solicitud</th>
-                                <th>RUT Funcionario</th>
-                                <th>Nombre Funcionario</th>
-                                <th>Solicitud</th>
-                                <th>Periodo</th>
-                                <th>RUT Contribuyente</th>
-                                <th>Folio</th>
-                                <th>Decisión</th>                                <th>Monto Autorizado de Devolución</th>
-                                <th>Dias Pendientes para Resolver</th>
-                                <th>Detalle</th>
-                            </tr>
-                        </thead>
-                        <tbody>            <!-- ejemplos -->
-                            <tr>  <!-- ejemplos 1-->
-                                <td>Decision 48 Horas</td>
-                                <td>13-05-2025</td>
-                                <td>13226394-9</td>
-                                <td>PAULINA NUÑEZ BARRIA</td>
-                                <td>Iva Exportador</td>
-                                <td>202501</td>
-                                <td>96221107-0</td>
-                                <td>10004779</td>
-                                <td>Ha lugar</td>
-                                <td>30000000</td>
-                                <td>-</td>
-                                <td><button class="action-button">Ver</button></td>
-                            </tr>
-                                 <tr><!-- ejemplos 2-->
-                                <td>Decision 48 Horas</td>
-                                <td>10-05-2025</td>
-                                <td>13226394-9</td>
-                                <td>PAULINA NUÑEZ BARRIA</td>
-                                <td>Iva Exportador</td>
-                                <td>202501</td>
-                                <td>97221107-0</td>
-                                <td>11004779</td>
-                                <td>Ha lugar en parte</td>
-                                <td>15000000</td>
-                                <td>30</td>
-                                <td><button class="action-button">Ver</button></td>
-
-                                      <tr><!-- ejemplos 3-->
-                                <td>Decision 48 Horas,Dispone FEP</td>
-                                <td>10-05-2025</td>
-                                <td>13226394-9</td>
-                                <td>PAULINA NUÑEZ BARRIA</td>
-                                <td>Iva Exportador</td>
-                                <td>202501</td>
-                                <td>97221107-0</td>
-                                <td>11004779</td>
-                                <td>Ha lugar en parte</td>
-                                <td>15000000</td>
-                                <td>30</td>
-                                <td><button class="action-button">Ver</button></td>
-                                         <tr><!-- ejemplos 4-->
-                                <td>FEP</td>
-                                <td>14-05-2025</td>
-                                <td>13226394-9</td>
-                                <td>PAULINA NUÑEZ BARRIA</td>
-                                <td>Iva Exportador</td>
-                                <td>202501</td>
-                                <td>97221107-0</td>
-                                <td>11004779</td>
-                                <td>Ha lugar en parte</td>
-                                <td>15000000</td>
-                                <td>30</td>
-                                <td><button class="action-button">Ver</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        </div>        <div class="tables-section">
+            <!-- Tabs Navigation -->
+            <div class="tabs-navigation">
+                <button id="tabConfirmacionesPendientes" class="tab-button active" onclick="openTab('contentConfirmacionesPendientes', 'tabConfirmacionesPendientes')">Mis confirmaciones Pendientes</button>
+                <button id="tabConfirmacionesRealizadas" class="tab-button" onclick="openTab('contentConfirmacionesRealizadas', 'tabConfirmacionesRealizadas')">Mis confirmaciones realizadas</button>
+                <button id="tabSubrrogancias" class="tab-button" onclick="openTab('contentSubrrogancias', 'tabSubrrogancias')">Subrrogancias</button>
             </div>
 
-            <div class="table-group">
-                <button id="toggleButton2" class="toggle-button" onclick="toggleTable('tableContent2', 'toggleButton2')">Mis confirmaciones realizadas</button>
-                <div id="tableContent2" class="table-container" style="display: none;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Acción</th>
-                        <th>Fecha solicitud</th>
-                        <th>RUT Funcionario</th>
-                        <th>Nombre Funcionario</th>
-                        <th>Solicitud</th>
-                        <th>Periodo</th>
-                        <th>RUT Contribuyente</th>
-                        <th>Folio</th>
-                        <th>Decisión</th>
-                        <th>Monto Autorizado de Devolución</th>
-                        <th>Fecha Autorización de Devolución</th>
-                        <th>Rut Autorizador</th>
-                    </tr>
-                </thead>
-                <tbody>
-                      <!-- ejemplos -->
-                </tbody>
-            </table>
-        </div>
-        </div>
+            <!-- Tab Contents -->
+            <div id="contentConfirmacionesPendientes" class="tab-content active">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Acción</th>
+                            <th>Fecha solicitud</th>
+                            <th>RUT Funcionario</th>
+                            <th>Nombre Funcionario</th>
+                            <th>Solicitud</th>
+                            <th>Periodo</th>
+                            <th>RUT Contribuyente</th>
+                            <th>Folio</th>
+                            <th>Decisión</th>                                
+                            <th>Monto Autorizado de Devolución</th>
+                            <th>Dias Pendientes para Resolver</th>
+                            <th>Detalle</th>
+                        </tr>
+                    </thead>
+                    <tbody>            <!-- ejemplos -->
+                        <tr>  <!-- ejemplos 1-->
+                            <td>Decision 48 Horas</td>
+                            <td>13-05-2025</td>
+                            <td>13226394-9</td>
+                            <td>PAULINA NUÑEZ BARRIA</td>
+                            <td>Iva Exportador</td>
+                            <td>202501</td>
+                            <td>96221107-0</td>
+                            <td>10004779</td>
+                            <td>Ha lugar</td>
+                            <td>30000000</td>
+                            <td>-</td>
+                            <td><button class="action-button">Ver</button></td>
+                        </tr>
+                             <tr><!-- ejemplos 2-->
+                            <td>Decision 48 Horas</td>
+                            <td>10-05-2025</td>
+                            <td>13226394-9</td>
+                            <td>PAULINA NUÑEZ BARRIA</td>
+                            <td>Iva Exportador</td>
+                            <td>202501</td>
+                            <td>97221107-0</td>
+                            <td>11004779</td>
+                            <td>Ha lugar en parte</td>
+                            <td>15000000</td>
+                            <td>30</td>
+                            <td><button class="action-button">Ver</button></td>
+                        </tr>
+                        <tr><!-- ejemplos 3-->
+                            <td>Decision 48 Horas,Dispone FEP</td>
+                            <td>10-05-2025</td>
+                            <td>13226394-9</td>
+                            <td>PAULINA NUÑEZ BARRIA</td>
+                            <td>Iva Exportador</td>
+                            <td>202501</td>
+                            <td>97221107-0</td>
+                            <td>11004779</td>
+                            <td>Ha lugar en parte</td>
+                            <td>15000000</td>
+                            <td>30</td>
+                            <td><button class="action-button">Ver</button></td>
+                        </tr>
+                        <tr><!-- ejemplos 4-->
+                            <td>FEP</td>
+                            <td>14-05-2025</td>
+                            <td>13226394-9</td>
+                            <td>PAULINA NUÑEZ BARRIA</td>
+                            <td>Iva Exportador</td>
+                            <td>202501</td>
+                            <td>97221107-0</td>
+                            <td>11004779</td>
+                            <td>Ha lugar en parte</td>
+                            <td>15000000</td>
+                            <td>30</td>
+                            <td><button class="action-button">Ver</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-            <div class="table-group">
-                <button id="toggleButton3" class="toggle-button" onclick="toggleTable('tableContent3', 'toggleButton3')">Subrrogancias</button>
-                <div id="tableContent3" class="table-container" style="display: none;">
+            <div id="contentConfirmacionesRealizadas" class="tab-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Acción</th>
+                            <th>Fecha solicitud</th>
+                            <th>RUT Funcionario</th>
+                            <th>Nombre Funcionario</th>
+                            <th>Solicitud</th>
+                            <th>Periodo</th>
+                            <th>RUT Contribuyente</th>
+                            <th>Folio</th>
+                            <th>Decisión</th>
+                            <th>Monto Autorizado de Devolución</th>
+                            <th>Fecha Autorización de Devolución</th>
+                            <th>Rut Autorizador</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- ejemplos -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="contentSubrrogancias" class="tab-content">
                     <div class="subrogancia-form">
                         <div class="form-row">
                             <div class="form-group">
