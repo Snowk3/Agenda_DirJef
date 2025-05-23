@@ -144,6 +144,12 @@ function formatearMonto(monto) {
     }).format(monto);
 }
 
+// Si el formato de moneda ya está definido en script.js,
+// asegurar que esté disponible globalmente
+if (typeof window.formatearMonto === 'undefined') {
+    window.formatearMonto = formatearMonto;
+}
+
 // ===============================================
 // FUNCIONES DE CÁLCULO DE FECHAS
 // ===============================================

@@ -309,6 +309,85 @@
         </div>
     </main>
 
-    <script src="script.js"></script>
+    <!-- Popup structure -->
+<div id="detailPopup" class="popup-overlay">
+    <div class="popup-container">
+        <button class="popup-close" onclick="closeDetailPopup()" aria-label="Cerrar" tabindex="0">&times;</button>
+        <h2 class="popup-title">Detalle de Solicitud</h2>
+        
+        <!-- Sección 1: Información General -->
+        <div class="popup-section">
+            <h3>Información General</h3>
+            <div class="popup-info-grid">
+                <div class="popup-info-item">
+                    <label>Tipo de Solicitud:</label>
+                    <span id="popupTipoSolicitud"></span>
+                </div>
+                <div class="popup-info-item">
+                    <label>Acción:</label>
+                    <span id="popupAccion"></span>
+                </div>
+                <div class="popup-info-item">
+                    <label>Fecha Solicitud:</label>
+                    <span id="popupFechaSolicitud"></span>
+                </div>
+                <div class="popup-info-item">
+                    <label>Folio:</label>
+                    <span id="popupFolio"></span>
+                </div>
+                <div class="popup-info-item">
+                    <label>RUT Funcionario:</label>
+                    <span id="popupRutFuncionario"></span>
+                </div>
+                <div class="popup-info-item">
+                    <label>Nombre Funcionario:</label>
+                    <span id="popupNombreFuncionario"></span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sección 2: Decisión -->
+        <div class="popup-section">
+            <h3>Decisión</h3>
+            <div class="popup-info-grid">
+                <div class="popup-info-item">
+                    <label>Decisión:</label>
+                    <span id="popupDecision"></span>
+                </div>
+                <div class="popup-info-item">
+                    <label>Monto Autorizado:</label>
+                    <span id="popupMontoAutorizado"></span>
+                </div>
+                <div class="popup-info-item" style="grid-column: span 2;">
+                    <label>Comentarios Realizados:</label>
+                    <span id="popupComentarios">No hay comentarios registrados para esta solicitud.</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sección 3: Historial de Eventos -->
+        <div class="popup-section">
+            <h3>Historial de Eventos</h3>
+            <div id="popupLoadingIndicator" class="loading-indicator">
+                <div class="loading-spinner"></div>
+                <p>Cargando datos del historial...</p>
+            </div>
+            <table class="popup-history-table">
+                <thead>
+                    <tr>
+                        <th>Evento</th>
+                        <th>Fecha y Hora</th>
+                        <th>Funcionario</th>
+                        <th>Documento</th>
+                    </tr>
+                </thead>
+                <tbody id="popupHistorialBody">
+                    <!-- Filas de historial se generarán dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>    <script src="script.js"></script>
+    <script src="popup.js"></script>
 </body>
 </html>
