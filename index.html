@@ -162,15 +162,13 @@
                             <!-- ejemplos -->
                         </tbody>
                     </table>
-                </div>
-            </div>            <div id="contentResoluciones" class="tab-content">
-                <!-- Sub-pestañas dentro de Resoluciones -->
-                <div class="sub-tabs-navigation">
-                    <button id="subTabResoluciones" class="sub-tab-button active" onclick="openSubTab('contentResoluciones', 'subTabResoluciones', 'contentResoluciones')">Resoluciones</button>
-                    <button id="subTabResolucionesFirmadas" class="sub-tab-button" onclick="openSubTab('contentResolucionesFirmadas', 'subTabResolucionesFirmadas', 'contentResoluciones')">Mis Resoluciones Firmadas</button>
+                </div>            </div>            <div id="contentResoluciones" class="tab-content">
+                <!-- Sub-pestañas dentro de Resoluciones -->                <div class="sub-tabs-navigation">
+                    <button id="subTabResoluciones" class="sub-tab-button active" data-target="contentSubResoluciones" onclick="openSubTab('contentSubResoluciones', 'subTabResoluciones', 'contentResoluciones')">Resoluciones</button>
+                    <button id="subTabResolucionesFirmadas" class="sub-tab-button" data-target="contentResolucionesFirmadas" onclick="openSubTab('contentResolucionesFirmadas', 'subTabResolucionesFirmadas', 'contentResoluciones')">Mis Resoluciones Firmadas</button>
                 </div>
                 
-                <div id="contentResoluciones" class="sub-tab-content active">
+                <div id="contentSubResoluciones" class="sub-tab-content active">
                     <table>
                         <thead>
                             <tr>

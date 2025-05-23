@@ -78,6 +78,11 @@ function openSubTab(contentId, activeTabId, parentContentId) {
     // Solo procesar las sub-pestañas dentro de la pestaña padre activa
     const parentElement = document.getElementById(parentContentId);
     
+    if (!parentElement) {
+        console.error(`No se encontró el elemento padre con ID "${parentContentId}"`);
+        return;
+    }
+    
     // Ocultar todos los contenidos de sub-pestañas
     const subTabContents = parentElement.getElementsByClassName('sub-tab-content');
     for (let i = 0; i < subTabContents.length; i++) {
@@ -91,8 +96,21 @@ function openSubTab(contentId, activeTabId, parentContentId) {
     }
     
     // Mostrar el contenido seleccionado y activar la sub-pestaña
-    document.getElementById(contentId).classList.add('active');
-    document.getElementById(activeTabId).classList.add('active');
+    const contentElement = document.getElementById(contentId);
+    const tabElement = document.getElementById(activeTabId);
+    
+    if (!contentElement) {
+        console.error(`No se encontró el elemento de contenido con ID "${contentId}"`);
+        return;
+    }
+    
+    if (!tabElement) {
+        console.error(`No se encontró el elemento de pestaña con ID "${activeTabId}"`);
+        return;
+    }
+    
+    contentElement.classList.add('active');
+    tabElement.classList.add('active');
     
     // Si es la sub-pestaña de confirmaciones pendientes, calcular días pendientes
     if (contentId === 'contentConfirmacionesPendientes') {
@@ -302,6 +320,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar el sistema de pestañas y calcular días pendientes
     calcularDiasPendientes();
     
+    // Inicialización de las pestañas activas por defecto
+    const activeTabContent = document.querySelector('.tab-content.active');
+    if (activeTabContent) {
+        const activeSubTabContent = activeTabContent.querySelector('.sub-tab-content.active');
+        const activeSubTabButton = activeTabContent.querySelector('.sub-tab-button.active');
+        
+        // Si hay sub-pestañas activas, asegurarse de que estén correctamente inicializadas
+        if (activeSubTabContent && activeSubTabButton) {
+            activeSubTabContent.style.display = 'block';
+        }
+    }
+    
     // Asegurar que las pestañas funcionen correctamente
     const tabButtons = document.querySelectorAll('.tab-button');
     tabButtons.forEach(button => {
@@ -315,12 +345,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const subTabButtons = document.querySelectorAll('.sub-tab-button');
     subTabButtons.forEach(button => {
         button.addEventListener('click', function() {
+            // Usar data-target si está disponible, o construir el ID desde el ID del botón
             const contentId = this.getAttribute('data-target') || this.id.replace('subTab', 'content');
             const parentContentId = this.closest('.tab-content').id;
+            
+            console.log(`Activando sub-pestaña: ${this.textContent}`);
+            console.log(`ContentId: ${contentId}, ActiveTabId: ${this.id}, ParentContentId: ${parentContentId}`);
+            
             openSubTab(contentId, this.id, parentContentId);
         });
     });
-      // Configurar el botón de guardar subrrogancia
+    
+    // Configurar el botón de guardar subrrogancia
     const btnGuardarSubrrogancia = document.querySelector('.submit-button');
     if (btnGuardarSubrrogancia) {
         btnGuardarSubrrogancia.addEventListener('click', guardarSubrrogancia);
