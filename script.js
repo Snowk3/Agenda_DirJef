@@ -1,6 +1,10 @@
 // ===============================================
-// FUNCIONES DE CONTROL DE INTERFAZ
+// MÓDULO PRINCIPAL: SISTEMA DE GESTIÓN DE INTERFAZ Y FUNCIONALIDADES
 // ===============================================
+
+// -----------------------------------------------
+// 1. FUNCIONES DE CONTROL DE INTERFAZ
+// -----------------------------------------------
 
 /**
  * Controla la visibilidad de las secciones colapsables y actualiza el texto del botón
@@ -118,9 +122,9 @@ function openSubTab(contentId, activeTabId, parentContentId) {
     }
 }
 
-// ===============================================
-// FUNCIONES DE CONTEO Y FORMATEO
-// ===============================================
+// -----------------------------------------------
+// 2. FUNCIONES DE CONTEO Y FORMATEO
+// -----------------------------------------------
 
 /**
  * Cuenta el número de elementos en la tabla de confirmaciones pendientes
@@ -150,9 +154,9 @@ if (typeof window.formatearMonto === 'undefined') {
     window.formatearMonto = formatearMonto;
 }
 
-// ===============================================
-// FUNCIONES DE CÁLCULO DE FECHAS
-// ===============================================
+// -----------------------------------------------
+// 3. FUNCIONES DE CÁLCULO DE FECHAS
+// -----------------------------------------------
 
 /**
  * Calcula los días pendientes y formatea los montos en la tabla
@@ -208,10 +212,6 @@ function parseFecha(fechaStr) {
     return new Date(anio, mes - 1, dia);
 }
 
-// ===============================================
-// FUNCIONES DE SUBRROGANCIA
-// ===============================================
-
 /**
  * Formatea una fecha en formato YYYY-MM-DD a formato DD-MM-YYYY
  * @param {string} fechaStr - Fecha en formato YYYY-MM-DD
@@ -221,6 +221,10 @@ function formatearFecha(fechaStr) {
     const [anio, mes, dia] = fechaStr.split('-');
     return `${dia}-${mes}-${anio}`;
 }
+
+// -----------------------------------------------
+// 4. FUNCIONES DE SUBRROGANCIA
+// -----------------------------------------------
 
 /**
  * Guarda una subrrogancia y la muestra en el historial
@@ -317,12 +321,16 @@ function eliminarSubrrogancia(fila, usuario, fechaInicio, fechaTermino) {
     }
 }
 
-// ===============================================
-// INICIALIZACIÓN
-// ===============================================
+// -----------------------------------------------
+// 5. INICIALIZACIÓN Y EVENTOS DEL DOCUMENTO
+// -----------------------------------------------
 
 // Configuración inicial cuando se carga la página
 document.addEventListener('DOMContentLoaded', function() {
+    // -----------------------------------------------
+    // 5.1 INICIALIZACIÓN DE PESTAÑAS Y CÁLCULOS
+    // -----------------------------------------------
+    
     // Inicializar el sistema de pestañas y calcular días pendientes
     calcularDiasPendientes();
     
@@ -337,6 +345,10 @@ document.addEventListener('DOMContentLoaded', function() {
             activeSubTabContent.style.display = 'block';
         }
     }
+    
+    // -----------------------------------------------
+    // 5.2 CONFIGURACIÓN DE EVENTOS DE PESTAÑAS
+    // -----------------------------------------------
     
     // Asegurar que las pestañas funcionen correctamente
     const tabButtons = document.querySelectorAll('.tab-button');
@@ -361,6 +373,10 @@ document.addEventListener('DOMContentLoaded', function() {
             openSubTab(contentId, this.id, parentContentId);
         });
     });
+    
+    // -----------------------------------------------
+    // 5.3 CONFIGURACIÓN DE EVENTOS DE SUBRROGANCIA
+    // -----------------------------------------------
     
     // Configurar el botón de guardar subrrogancia
     const btnGuardarSubrrogancia = document.querySelector('.submit-button');
